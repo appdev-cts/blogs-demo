@@ -22,7 +22,6 @@ import { GiThreeFriends } from "react-icons/gi";
 import { SlUserFollow } from "react-icons/sl";
 
 const UserProfile = () => {
-    console.log("UserProfile");
     const { searchResult, setSearchResult, searchText } = useAuth();
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true);
