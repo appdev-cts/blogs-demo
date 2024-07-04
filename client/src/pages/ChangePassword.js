@@ -16,49 +16,37 @@ const ChangePassword = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [newPassword, setNewPassword] = useState('');
     const [loading, setLoading] = useState(false);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const headers = {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`, // Ensure 'token' is defined and valid
         };
-        try {
-            setLoading(true);
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_IP_ADDRESS}/api/users/change-password`, {
-                oldPassword,
-                newPassword,
-                confirmPassword
-            }, { headers: headers });
 
-            console.log("Success Response:", response?.data?.status);  // Log to check success response
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_SERVER_IP_ADDRESS}/api/users/change-password`,
+                { oldPassword, newPassword, confirmPassword },
+                { headers: headers }
+            );
 
             if (response?.data?.status) {
                 setOldPassword('');
                 setNewPassword('');
                 setConfirmPassword('');
-                setLoading(false);
+
+                // Show success toast and then show loading toast for redirection
                 toast.success('Password changed successfully!');
-                toast.success("Redirecting to login...");
                 setTimeout(() => {
-                    toast.loading("Redirecting to login...");  // Log before redirect
-                    logout();
-                    navigate('/login');
-                }, 2000);
+                    toast.loading('Redirecting to login...'); // Show loading toast before redirect
+                    logout(); // Handle logout logic as required
+                    navigate('/login'); // Redirect to login page
+                }, 2000); // Delay for showing the success message
             }
         } catch (error) {
-            setLoading(false);
             console.error('Error changing password:', error);
-            if (error.response && error.response.data && error.response.data.message) {
-                toast.error(error?.response?.data?.message || 'An error occurred while changing the password.');
-                setOldPassword('');
-                setNewPassword('');
-                setConfirmPassword('');
-            } else {
-                toast.error('An error occurred while changing the password.');
-                setOldPassword('');
-                setNewPassword('');
-                setConfirmPassword('');
-            }
+            toast.error(
+                error?.response?.data?.message || 'An error occurred while changing the password.'
+            );
         }
     };
 
@@ -157,7 +145,7 @@ const ChangePassword = () => {
                             position: 'top-right',
                         },
                         error: {
-                            
+
                             position: 'top-right',
                         },
                         // Add other types of toast options if needed
