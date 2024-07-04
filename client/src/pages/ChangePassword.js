@@ -33,7 +33,6 @@ const ChangePassword = () => {
                 setOldPassword('');
                 setNewPassword('');
                 setConfirmPassword('');
-
                 // Show success toast and then show loading toast for redirection
                 toast.success('Password changed successfully!');
                 setTimeout(() => {
@@ -148,9 +147,13 @@ const ChangePassword = () => {
 
                             position: 'top-right',
                         },
+                        loading: {
+                            position: 'top-right',
+                        }
                         // Add other types of toast options if needed
                     }}
-                />            </div>
+                />
+            </div>
         </>
     );
 };
