@@ -28,7 +28,11 @@ const UploadBlog = ({ onClose, onChildUpdate }) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-
+    useEffect(() => {
+        return () => {
+            toast.dismiss(); // Clear all toasts on unmount
+        };
+    }, []);
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -61,7 +65,7 @@ const UploadBlog = ({ onClose, onChildUpdate }) => {
                 setLoading(false);
                 reject(error?.response?.data?.message || 'An error occurred while uploading the blog.');
             } finally {
-                setLoading(false);
+                setLoading(true);
             }
         });
         toast.promise(

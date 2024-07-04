@@ -32,7 +32,7 @@ const EditBlog = ({ blog, onClose, onChildUpdate }) => {
     const [isDeleted, setIsDeleted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [delLoading, setDelLoading] = useState(false);
-
+   
     const insertImage = useCallback((imageUrl) => {
         const quillEditor = quill.current.getEditor();
         const range = quillEditor.getSelection(true);
@@ -301,6 +301,9 @@ const EditBlog = ({ blog, onClose, onChildUpdate }) => {
             const toolbar = quill.current.getEditor().getModule('toolbar').container;
             toolbar.classList.add('sticky', 'top-0', 'z-10', 'bg-white');
         }
+        return () => {
+            toast.dismiss();
+        };
     }, [formData, images]);
 
     const handleClose = () => {
@@ -382,7 +385,7 @@ const EditBlog = ({ blog, onClose, onChildUpdate }) => {
                             onClick={() => setIsDeleteClicked(true)}
                             disabled={loading}
                         >
-                            <div className='flex gap-2 items-center'>
+                            <div className='flex gap-2 items-center' disabled={loading}>
                                 Delete
                                 <MdDelete />
                             </div>

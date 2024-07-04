@@ -31,6 +31,7 @@ const uploadComment = async (req, res) => {
             const authorNotification = {
                 user: authorId,
                 type: 'comment',
+                otherUserFullName: user.fullName,
                 otherUserName: user?.userName,
                 otherUserProfilePic: user?.profilePic,
                 message: `commented on your post`,

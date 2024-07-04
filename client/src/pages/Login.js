@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; // Import useAuth hook
@@ -12,19 +12,26 @@ const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [validationErrors, setValidationErrors] = useState([]); // State for validation errors
     const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     const [loading, setLoading] = useState(false);
-
-    // Ref for the error message container
-    const errorContainerRef = useRef(null);
-
+    useEffect(() => {
+        return () => {
+            toast.dismiss(); // Clear all toasts on unmount
+        };
+    }, []);
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validate form inputs if necessary
+        if (!email || !password) {
+            setLoading(false)
+            toast.error('Email and password are required.');
+            return;
+        }
+
+        setLoading(true);
 
         const promise = new Promise(async (resolve, reject) => {
-            setLoading(true);
-
             try {
                 const response = await axios.post(
                     `${process.env.REACT_APP_SERVER_IP_ADDRESS}/api/users/login-user`,
@@ -38,12 +45,10 @@ const Login = () => {
                 storeUser(response?.data?.response?.fullName);
                 resolve('Login successful!');
             } catch (error) {
-                console.error('Error logging in:', error);
                 setLoading(false);
+                console.error('Error logging in:', error);
                 reject(error?.response?.data?.message || 'An error occurred during login.');
-            } finally {
-                setLoading(true);
-            }
+            } 
         });
 
         toast.promise(
@@ -65,7 +70,6 @@ const Login = () => {
                 navigate('/dashboard'); // Redirect to dashboard page
             }, 2000);
         }).catch(() => {
-            setLoading(false);
             // Handle additional error cases if needed
         });
     };
@@ -143,23 +147,20 @@ const Login = () => {
                 <div className="mt-4 flex justify-end">
                     <Link to="/forgot-password" className="underline text-sm">Forgot Password?</Link>
                 </div>
-                
             </form>
             <Toaster 
                 toastOptions={{
                     success:{
-                        position: 'top-right'
+                        position: 'top-right',
                     },
                     loading:{
-                        position:'top-right'
+                        position:'top-right',
                     },
                     error: {
-                        position: 'top-right'
+                        position: 'top-right',
                     }
                 }}
-            
-            /> {/* Add Toaster component here */}
-
+            />
         </div>
     );
 };

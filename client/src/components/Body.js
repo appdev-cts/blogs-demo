@@ -3,7 +3,7 @@ import axios from 'axios';
 import BlogCard from './BlogCard';
 import { useAuth } from '../context/AuthContext';
 import { FaFaceFrown } from "react-icons/fa6";
-
+import CenteredLoader from './CenteredLoader';
 const Body = () => {
     const { fetchBlogs, blogs, filteredBlogs, allTags, token, searchText } = useAuth();
     const allTagsOptions = allTags.map(tag => ({ value: tag, label: tag }));
