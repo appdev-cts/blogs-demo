@@ -40,7 +40,7 @@ const Login = () => {
             } catch (error) {
                 console.error('Error logging in:', error);
                 setLoading(false);
-                reject(error?.response?.data?.response?.message || 'An error occurred during login.');
+                reject(error?.response?.data?.message || 'An error occurred during login.');
             } finally {
                 setLoading(true);
             }
@@ -143,15 +143,7 @@ const Login = () => {
                 <div className="mt-4 flex justify-end">
                     <Link to="/forgot-password" className="underline text-sm">Forgot Password?</Link>
                 </div>
-                {validationErrors.length > 0 && (
-                    <div ref={errorContainerRef} className="fixed top-24 right-0 mr-4 bg-red-500 text-white p-4 rounded shadow z-50">
-                        <ul>
-                            {validationErrors.map((error, index) => (
-                                <li key={index}>{error}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
+                
             </form>
             <Toaster 
                 toastOptions={{
@@ -160,6 +152,9 @@ const Login = () => {
                     },
                     loading:{
                         position:'top-right'
+                    },
+                    error: {
+                        position: 'top-right'
                     }
                 }}
             

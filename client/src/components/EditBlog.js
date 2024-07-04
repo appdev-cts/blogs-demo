@@ -200,6 +200,7 @@ const EditBlog = ({ blog, onClose, onChildUpdate }) => {
                     reject('Failed to update the blog.');
                 }
             } catch (error) {
+                setLoading(false);
                 reject(error?.response?.data?.message || 'An error occurred while updating the blog.');
             } finally {
                 setLoading(true);
@@ -227,6 +228,7 @@ const EditBlog = ({ blog, onClose, onChildUpdate }) => {
                 onChildUpdate();
             }, 2000);
         }).catch(() => {
+            setLoading(false)
             // Handle additional error cases if needed
         });
     };
@@ -386,18 +388,8 @@ const EditBlog = ({ blog, onClose, onChildUpdate }) => {
                         </button>
                     </div>
                 </form>
-                {isSaved && (
-                    <div className="absolute top-5 right-0 m-4 bg-green-500 text-white p-4 rounded shadow">Saved successfully!</div>
-                )}
-                {validationErrors.length > 0 && (
-                    <div className="absolute top-5 right-0 m-4 bg-red-500 text-white p-4 rounded shadow">
-                        <ul>
-                            {validationErrors.map((error, index) => (
-                                <li key={index}>{error}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
+                
+                
                 {isDeleteClicked && (
                     <div className="absolute top-0 left-0 z-50 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
                         <div className="bg-white p-8 rounded-md shadow-md">
