@@ -58,12 +58,12 @@ const UploadBlog = ({ onClose, onChildUpdate }) => {
                     reject('An error occurred while uploading the blog.');
                 }
             } catch (error) {
+                setLoading(false);
                 reject(error?.response?.data?.message || 'An error occurred while uploading the blog.');
             } finally {
-                setLoading(true);
+                setLoading(false);
             }
         });
-
         toast.promise(
             promise,
             {
@@ -81,10 +81,11 @@ const UploadBlog = ({ onClose, onChildUpdate }) => {
 
         // Handle side effects after toast.promise resolves or rejects
         promise.then(() => {
-            setTimeout(() => {
+           const timer= setTimeout(() => {
                 onClose();
                 onChildUpdate();
             }, 2000);
+            return ()=> clearTimeout(timer);
         }).catch((error) => {
             // Optionally handle any additional error cases here
             console.log(error);

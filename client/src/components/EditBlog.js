@@ -285,9 +285,10 @@ const EditBlog = ({ blog, onClose, onChildUpdate }) => {
                 navigate(-1);
             }
 
-            setTimeout(() => {
+         let timer=   setTimeout(() => {
                 setIsDeleted(true);
                 onChildUpdate();
+                return ()=> clearTimeout(timer);
             }, 2000);
         }).catch(() => {
             // Handle additional error cases if needed
