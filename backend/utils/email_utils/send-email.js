@@ -5,12 +5,6 @@ const sendEmail = async (email) => {
     let otp = genOTP();
 
     var transport = nodemailer.createTransport({
-        // host: "sandbox.smtp.mailtrap.io",
-        // port: 2525,
-        // auth: {
-        //     user: "cadd4f44623755",
-        //     pass: "002cdde5cfd9c2"
-        // }
         service: "gmail",
         auth:{
             user:"varunsaini417@gmail.com",
