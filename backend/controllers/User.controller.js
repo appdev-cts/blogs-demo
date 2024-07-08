@@ -219,9 +219,6 @@ const signUp = async (req, res) => {
             return res.status(400).json({ status: false, message: "User name is already taken" })
         }
         const hash = bcrypt.hashSync(password, 10);
-
-
-
         let formattedUserName = userName;
         if (!userName.startsWith('@')) {
             formattedUserName = `@${userName}`;
